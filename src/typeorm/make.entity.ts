@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Model } from './model.entity';
 @Entity()
 export class Make {
   @PrimaryGeneratedColumn({
@@ -12,4 +13,6 @@ export class Make {
     default: '',
   })
   name: string;
+  @OneToMany(() => Model, (model) => model.make)
+  models: Model[];
 }

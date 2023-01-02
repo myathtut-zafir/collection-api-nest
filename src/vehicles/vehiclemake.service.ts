@@ -9,6 +9,10 @@ export class VehicleMake {
     private readonly makeRpository: Repository<Make>,
   ) {}
   getVehicleMakes() {
-    return this.makeRpository.find();
+    return this.makeRpository.find({
+      relations: {
+        models: true,
+      },
+    });
   }
 }

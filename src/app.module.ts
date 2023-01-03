@@ -1,35 +1,20 @@
-import { MiddlewareConsumer, Module } from '@nestjs/common';
-import { ConfigModule, ConfigService } from '@nestjs/config';
+import { MiddlewareConsumer, Module, RequestMethod } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import entities from './typeorm';
 import { VehiclesModule } from './vehicles/vehicles.module';
 import { LoggingMiddleware } from './logging.middleware';
+import { dataSourceOption } from 'db/data-source';
+import { AppController } from './app.controller';
+import { AppService } from './app.service';
 
 @Module({
-  imports: [
-    ConfigModule.forRoot({ isGlobal: true }),
-    TypeOrmModule.forRootAsync({
-      useFactory: () => {
-        return {
-          type: 'postgres',
-          host: process.env.DB_HOST,
-          port: parseInt(process.env.DB_PORT),
-          username: process.env.DB_USERNAME,
-          password: process.env.DB_PASSWORD,
-          database: process.env.DB_NAME,
-          entities: entities,
-          synchronize: true,
-        };
-      },
-      inject: [ConfigService],
-    }),
-    VehiclesModule,
-  ],
-  controllers: [],
-  providers: [],
+  imports: [TypeOrmModule.forRoot(dataSourceOption), VehiclesModule],
+  controllers: [AppController],
+  providers: [AppService],
 })
 export class AppModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(LoggingMiddleware).forRoutes('/makes');
+    consumer
+      .apply(LoggingMiddleware)
+      .forRoutes({ path: '/makes', method: RequestMethod.ALL });
   }
 }

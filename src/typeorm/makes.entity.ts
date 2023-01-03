@@ -1,7 +1,7 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
-import { Model } from './model.entity';
+import { Models } from './models.entity';
 @Entity()
-export class Make {
+export class Makes {
   @PrimaryGeneratedColumn({
     type: 'bigint',
     name: 'id',
@@ -13,6 +13,6 @@ export class Make {
     default: '',
   })
   name: string;
-  @OneToMany(() => Model, (model) => model.make)
-  models: Model[];
+  @OneToMany(() => Models, (model) => model.make)
+  models: Models[];
 }

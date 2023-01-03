@@ -1,7 +1,7 @@
-import { Make } from './make.entity';
-import { Model } from './model.entity';
+import { Makes } from './makes.entity';
+import { Models } from './models.entity';
 import { Vehicle } from './vehicle.entity';
-const entities = [Vehicle, Make, Model];
+const entities = [Vehicle, Makes, Models];
 
-export { Vehicle, Make, Model };
+export { Vehicle, Makes, Models };
 export default entities;

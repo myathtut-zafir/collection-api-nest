@@ -1,4 +1,4 @@
-import { MiddlewareConsumer, Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, RequestMethod } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import entities from './typeorm';
@@ -30,6 +30,8 @@ import { LoggingMiddleware } from './logging.middleware';
 })
 export class AppModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(LoggingMiddleware).forRoutes('/makes');
+    consumer
+      .apply(LoggingMiddleware)
+      .forRoutes({ path: '/makes', method: RequestMethod.ALL });
   }
 }

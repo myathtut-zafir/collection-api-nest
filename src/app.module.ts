@@ -1,8 +1,9 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import entities from './typeorm';
 import { VehiclesModule } from './vehicles/vehicles.module';
+import { LoggingMiddleware } from './logging.middleware';
 
 @Module({
   imports: [
@@ -27,4 +28,8 @@ import { VehiclesModule } from './vehicles/vehicles.module';
   controllers: [],
   providers: [],
 })
-export class AppModule {}
+export class AppModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(LoggingMiddleware).forRoutes('/makes');
+  }
+}
